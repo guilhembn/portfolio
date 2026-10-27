@@ -27,13 +27,14 @@ npm run preview    # serve dist/ locally
 
 ## Deploy
 
-The VPS serves the built files from `/var/www/portfolio` through its own Apache vhost
-(`deploy/portfolio.conf`), separate from Nextcloud.
+The VPS serves the built files from `/var/www/portfolio` as the root of the existing
+`buisan.me` vhost, next to Nextcloud at `/nextcloud`. The portfolio-specific Apache
+directives live in `deploy/portfolio.conf`, a snippet that vhost `Include`s.
 
 1. First time on the VPS:
    ```bash
    sudo mkdir -p /var/www/portfolio && sudo chown "$USER": /var/www/portfolio
    ```
-   then install the vhost as described at the top of `deploy/portfolio.conf`.
+   then install the snippet as described at the top of `deploy/portfolio.conf`.
 2. Locally: `cp deploy/.deploy.env.example deploy/.deploy.env` and fill it in.
 3. `./deploy/deploy.sh --dry-run` to check, then `./deploy/deploy.sh`.
