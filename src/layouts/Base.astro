@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  // Full-bleed pages (lab demos) drop the centered content column.
+  wide?: boolean;
+}
+
+const SITE_NAME = 'Guilhem Buisan';
+const {
+  title,
+  description = 'Portfolio of Guilhem Buisan — projects, experiments and notes.',
+  wide = false,
+} = Astro.props;
+const pageTitle = title ? `${title} · ${SITE_NAME}` : SITE_NAME;
+const path = Astro.url.pathname;
+
+const nav = [
+  { href: '/', label: 'Home' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/lab/', label: 'Lab' },
+  { href: '/about/', label: 'About' },
+];
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={new URL(path, Astro.site)} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">{SITE_NAME}</a>
+      <nav aria-label="Main">
+        {
+          nav.map((item) => (
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </header>
+
+    <main class:list={[wide ? 'wide' : 'container']}>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p>© {new Date().getFullYear()} {SITE_NAME}</p>
+    </footer>
+  </body>
+</html>

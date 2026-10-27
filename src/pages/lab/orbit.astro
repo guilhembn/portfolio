@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base title="Orbit" description="A Three.js test scene." wide>
+  <div class="stage">
+    <canvas id="orbit-canvas" aria-label="Rotating 3D icosahedron surrounded by particles"></canvas>
+    <div class="overlay">
+      <a href="/lab/">← Lab</a>
+      <p>Move the pointer around.</p>
+    </div>
+  </div>
+</Base>
+
+<script>
+  // Three.js is imported lazily so the page shell renders before the 3D bundle loads.
+  const canvas = document.getElementById('orbit-canvas');
+  if (canvas instanceof HTMLCanvasElement) {
+    import('../../scripts/orbit-scene').then(({ startOrbitScene }) => startOrbitScene(canvas));
+  }
+</script>
+
+<style>
+  .stage {
+    position: relative;
+    flex: 1;
+    min-height: 70dvh;
+  }
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    touch-action: none;
+  }
+  .overlay {
+    position: absolute;
+    top: 1rem;
+    left: var(--gutter);
+    pointer-events: none;
+    color: var(--muted);
+  }
+  .overlay a {
+    pointer-events: auto;
+  }
+  .overlay p {
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+  }
+</style>

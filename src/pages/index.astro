@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getProjects } from '../lib/projects';
+
+const featured = (await getProjects()).filter((p) => p.data.featured).slice(0, 4);
+---
+
+<Base>
+  <section class="hero">
+    <h1>Hi, I'm Guilhem.</h1>
+    <!-- TODO: replace with a real one- or two-line intro. -->
+    <p class="lede">
+      Engineer. I build things across hardware and software — this is where I keep the
+      projects, experiments and oddities.
+    </p>
+  </section>
+
+  <section>
+    <h2>Selected projects</h2>
+    {
+      featured.length > 0 ? (
+        <ul class="card-grid">
+          {featured.map((project) => (
+            <li>
+              <ProjectCard project={project} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="muted">Nothing here yet.</p>
+      )
+    }
+    <p><a href="/projects/">All projects →</a></p>
+  </section>
+
+  <section>
+    <h2>Lab</h2>
+    <p>
+      Interactive experiments: 3D, small games, emulators. <a href="/lab/">Have a look →</a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: 2rem 1rem;
+  }
+  section + section {
+    margin-top: 2.5rem;
+  }
+</style>

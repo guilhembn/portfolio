@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+
+// Each experiment is a page in src/pages/lab/ and loads only its own JS.
+const experiments = [
+  {
+    href: '/lab/orbit/',
+    title: 'Orbit',
+    summary: 'A Three.js test scene: an icosahedron and a particle field that follow the pointer.',
+    tags: ['three.js', 'webgl'],
+  },
+];
+---
+
+<Base title="Lab" description="Interactive experiments: 3D, games, emulators.">
+  <h1>Lab</h1>
+  <p class="lede">Interactive experiments. Some are polished, most are not.</p>
+  <ul class="card-grid">
+    {
+      experiments.map((exp) => (
+        <li>
+          <a class="card" href={exp.href}>
+            <h3>{exp.title}</h3>
+            <p>{exp.summary}</p>
+            <ul class="tags">{exp.tags.map((tag) => <li>{tag}</li>)}</ul>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Base>
